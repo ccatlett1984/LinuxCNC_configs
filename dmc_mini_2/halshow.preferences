@@ -1,12 +1,37 @@
 # Halshow settings
 # This file is generated automatically.
-wm geometry . 1180x640+610+302
+wm geometry . 1436x640+429+62
 placeFrames 0.3
 set ::ratio 0.3
 set ::old_w_leftf 160
 set ::watchlist {
+    sig+joint-0-enable
+    sig+joint-0-pos-cmd
+    sig+joint-1-enable
+    sig+joint-1-pos-cmd
+    sig+joint-2-enable
+    sig+joint-2-pos-cmd
+    sig+minus-home-joint-0
+    sig+minus-home-joint-1
+    sig+minus-home-joint-2
+    sig+motion-enable
+    sig+estop-loopback
+    pin+joint.0.active
+    pin+joint.0.backlash-corr
+    pin+joint.0.error
+    pin+joint.0.f-error
+    pin+joint.0.f-error-lim
+    pin+joint.0.faulted
+    pin+joint.0.home-state
+    pin+joint.0.home-sw-in
+    pin+joint.0.homed
+    pin+joint.0.homing
+    pin+joint.0.in-position
+    pin+hm2_7c80.0.stepgen.00.enable
+    pin+hm2_7c80.0.stepgen.01.enable
+    pin+hm2_7c80.0.stepgen.02.enable
 }
-set ::workmode showhal
+set ::workmode watchhal
 set ::watchInterval 100
 set ::col1_width 100
 set ::ffmts 
