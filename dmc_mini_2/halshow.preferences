@@ -6,37 +6,15 @@ set ::ratio 0.3
 set ::old_w_leftf 160
 set ::watchlist {
     sig+joint-0-enable
-    sig+joint-0-pos-cmd
     sig+joint-1-enable
-    sig+joint-1-pos-cmd
     sig+joint-2-enable
-    sig+joint-2-pos-cmd
     sig+minus-home-joint-0
     sig+minus-home-joint-1
     sig+minus-home-joint-2
-    sig+estop-loopback
     pin+joint.0.active
-    pin+joint.0.backlash-corr
-    pin+joint.0.error
-    pin+joint.0.f-error
-    pin+joint.0.f-error-lim
-    pin+joint.0.faulted
-    pin+joint.0.home-state
-    pin+joint.0.home-sw-in
-    pin+joint.0.homed
-    pin+joint.0.homing
-    pin+joint.0.in-position
-    pin+hm2_7c80.0.stepgen.00.enable
-    pin+hm2_7c80.0.stepgen.01.enable
-    pin+hm2_7c80.0.stepgen.02.enable
-    pin+hm2_7c80.0.ssr.00.invert-02
-    pin+hm2_7c80.0.ssr.00.invert-03
-    pin+hm2_7c80.0.ssr.00.invert-00
-    pin+hm2_7c80.0.ssr.00.invert-01
     pin+hm2_7c80.0.ssr.00.out-02
     pin+hm2_7c80.0.ssr.00.out-01
     pin+hm2_7c80.0.ssr.00.out-00
-    pin+hm2_7c80.0.ssr.00.rate
 }
 set ::workmode watchhal
 set ::watchInterval 100

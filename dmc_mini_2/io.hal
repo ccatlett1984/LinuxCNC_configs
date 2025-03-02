@@ -11,5 +11,8 @@ net minus-home-joint-0 joint.0.home-sw-in <=
 
 # Outputs
 net digital-out-0 motion.digital-out-00 => 
-net flood-output iocontrol.0.coolant-flood => 
-net motion-enable => 
+net flood-output iocontrol.0.coolant-flood =>
+loadrt not count=1
+addf not.0 servo-thread
+net ssr0out not.0.out hm2_7c80.0.ssr.00.out-02
+net motion-enable => not.0.in
