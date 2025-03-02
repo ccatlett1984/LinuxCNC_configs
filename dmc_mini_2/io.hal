@@ -1,4 +1,4 @@
-# This file was created with the Mesa Configuration Tool on Feb 23 2025 18:23:47
+# This file was created with the Mesa Configuration Tool on Mar 02 2025 14:19:18
 # If you make changes to this file DO NOT use the Configuration Tool
 
 # Inputs
@@ -12,3 +12,4 @@ net minus-home-joint-0 joint.0.home-sw-in <=
 # Outputs
 net digital-out-0 motion.digital-out-00 => 
 net flood-output iocontrol.0.coolant-flood => 
+net motion-enable => 

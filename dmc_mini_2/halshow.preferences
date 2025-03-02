@@ -1,6 +1,6 @@
 # Halshow settings
 # This file is generated automatically.
-wm geometry . 1436x640+429+62
+wm geometry . 1436x750+429+62
 placeFrames 0.3
 set ::ratio 0.3
 set ::old_w_leftf 160
@@ -29,7 +29,14 @@ set ::watchlist {
     pin+hm2_7c80.0.stepgen.00.enable
     pin+hm2_7c80.0.stepgen.01.enable
     pin+hm2_7c80.0.stepgen.02.enable
-    sig+machine-is-enabled
+    pin+hm2_7c80.0.ssr.00.invert-02
+    pin+hm2_7c80.0.ssr.00.invert-03
+    pin+hm2_7c80.0.ssr.00.invert-00
+    pin+hm2_7c80.0.ssr.00.invert-01
+    pin+hm2_7c80.0.ssr.00.out-02
+    pin+hm2_7c80.0.ssr.00.out-01
+    pin+hm2_7c80.0.ssr.00.out-00
+    pin+hm2_7c80.0.ssr.00.rate
 }
 set ::workmode watchhal
 set ::watchInterval 100
