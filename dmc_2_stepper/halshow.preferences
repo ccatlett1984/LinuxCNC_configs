@@ -1,0 +1,25 @@
+# Halshow settings
+# This file is generated automatically.
+wm geometry . 1436x750+429+62
+placeFrames 0.3
+set ::ratio 0.3
+set ::old_w_leftf 160
+set ::watchlist {
+    sig+joint-0-enable
+    sig+joint-1-enable
+    sig+joint-2-enable
+    sig+minus-home-joint-0
+    sig+minus-home-joint-1
+    sig+minus-home-joint-2
+    pin+joint.0.active
+    pin+hm2_7c80.0.ssr.00.out-02
+    pin+hm2_7c80.0.ssr.00.out-01
+    pin+hm2_7c80.0.ssr.00.out-00
+}
+set ::workmode watchhal
+set ::watchInterval 100
+set ::col1_width 100
+set ::ffmts 
+set ::ifmts 
+set ::alwaysOnTop 0
+set ::autoSaveWatchlist 1
