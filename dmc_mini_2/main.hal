@@ -1,4 +1,4 @@
-# This file was created with the Mesa Configuration Tool on Feb 23 2025 18:23:47
+# This file was created with the Mesa Configuration Tool on Mar 02 2025 14:19:18
 # If you make changes to this file DO NOT run the configuration tool again!
 # This file will be replaced with a new file if you do!
 
@@ -14,182 +14,114 @@ loadrt [HM2](DRIVER) config="num_encoders=1 num_pwmgens=1 num_stepgens=6 sserial
 
 setp hm2_[MESA](BOARD).0.watchdog.timeout_ns 5000000
 
-loadrt pid names=pid.x,pid.y,pid.z,pid.s
+loadrt pid names=pid.x,pid.y,pid.z
 
 # THREADS
 addf hm2_[MESA](BOARD).0.read servo-thread
 addf motion-command-handler servo-thread
 addf motion-controller servo-thread
-#addf pid.x.do-pid-calcs servo-thread
-#addf pid.y.do-pid-calcs servo-thread
-#addf pid.z.do-pid-calcs servo-thread
-addf pid.s.do-pid-calcs servo-thread
+addf pid.x.do-pid-calcs servo-thread
+addf pid.y.do-pid-calcs servo-thread
+addf pid.z.do-pid-calcs servo-thread
 addf hm2_[MESA](BOARD).0.write servo-thread
+
+# amp enable
+net motion-enable <= motion.motion-enabled
 
 # Board: 7c80
 
 # Axis: X Joint: 0 Output: 0
-# axis enable chain
-newsig emcmot.00.enable bit
-sets emcmot.00.enable FALSE
+# PID Setup
+setp pid.x.Pgain [JOINT_0](P)
+setp pid.x.Igain [JOINT_0](I)
+setp pid.x.Dgain [JOINT_0](D)
+setp pid.x.bias [JOINT_0](BIAS)
+setp pid.x.FF0 [JOINT_0](FF0)
+setp pid.x.FF1 [JOINT_0](FF1)
+setp pid.x.FF2 [JOINT_0](FF2)
+setp pid.x.deadband [JOINT_0](DEADBAND)
+setp pid.x.maxoutput [JOINT_0](MAX_OUTPUT)
+setp pid.x.error-previous-target True
 
-net emcmot.00.enable <= joint.0.amp-enable-out 
-net emcmot.00.enable => hm2_[HOSTMOT2](BOARD).0.stepgen.00.enable
+# joint-0 enable chain
+net joint-0-index-enable <=> pid.x.index-enable
+net joint-0-index-enable <=> joint.0.index-enable
 
+net joint-0-enable <= joint.0.amp-enable-out
+net joint-0-enable => pid.x.enable
 
 # position command and feedback
-net emcmot.00.pos-cmd <= joint.0.motor-pos-cmd
-net emcmot.00.pos-cmd => hm2_[HOSTMOT2](BOARD).0.stepgen.00.position-cmd
+net joint-0-pos-cmd <= joint.0.motor-pos-cmd
+net joint-0-pos-cmd => pid.x.command
 
-net motor.00.pos-fb <= hm2_[HOSTMOT2](BOARD).0.stepgen.00.position-fb
-net motor.00.pos-fb => joint.0.motor-pos-fb
+net joint-0-pos-fb <= hm2_[MESA](BOARD).0.stepgen.00.position-fb
+net joint-0-pos-fb => joint.0.motor-pos-fb
+net joint-0-pos-fb => pid.x.feedback
 
-
-# timing parameters
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.00.dirsetup        [JOINT_0]DIRSETUP
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.00.dirhold         [JOINT_0]DIRHOLD
-
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.00.steplen         [JOINT_0]STEPLEN
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.00.stepspace       [JOINT_0]STEPSPACE
-
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.00.position-scale  [JOINT_0]SCALE
-
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.00.maxvel          [JOINT_0]STEPGEN_MAXVEL
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.00.maxaccel        [JOINT_0]STEPGEN_MAXACCEL
-
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.00.step_type       0
+# PID Output
+net joint.0.output <= pid.x.output
 
 # Axis: Y Joint: 1 Output: 1
-# axis enable chain
-newsig emcmot.01.enable bit
-sets emcmot.01.enable FALSE
+# PID Setup
+setp pid.y.Pgain [JOINT_1](P)
+setp pid.y.Igain [JOINT_1](I)
+setp pid.y.Dgain [JOINT_1](D)
+setp pid.y.bias [JOINT_1](BIAS)
+setp pid.y.FF0 [JOINT_1](FF0)
+setp pid.y.FF1 [JOINT_1](FF1)
+setp pid.y.FF2 [JOINT_1](FF2)
+setp pid.y.deadband [JOINT_1](DEADBAND)
+setp pid.y.maxoutput [JOINT_1](MAX_OUTPUT)
+setp pid.y.error-previous-target True
 
-net emcmot.01.enable <= joint.1.amp-enable-out 
-net emcmot.01.enable => hm2_[HOSTMOT2](BOARD).0.stepgen.01.enable
+# joint-1 enable chain
+net joint-1-index-enable <=> pid.y.index-enable
+net joint-1-index-enable <=> joint.1.index-enable
 
+net joint-1-enable <= joint.1.amp-enable-out
+net joint-1-enable => pid.y.enable
 
 # position command and feedback
-net emcmot.01.pos-cmd <= joint.1.motor-pos-cmd
-net emcmot.01.pos-cmd => hm2_[HOSTMOT2](BOARD).0.stepgen.01.position-cmd
+net joint-1-pos-cmd <= joint.1.motor-pos-cmd
+net joint-1-pos-cmd => pid.y.command
 
-net motor.01.pos-fb <= hm2_[HOSTMOT2](BOARD).0.stepgen.01.position-fb
-net motor.01.pos-fb => joint.1.motor-pos-fb
+net joint-1-pos-fb <= hm2_[MESA](BOARD).0.stepgen.01.position-fb
+net joint-1-pos-fb => joint.1.motor-pos-fb
+net joint-1-pos-fb => pid.y.feedback
 
-
-# timing parameters
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.01.dirsetup        [JOINT_1]DIRSETUP
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.01.dirhold         [JOINT_1]DIRHOLD
-
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.01.steplen         [JOINT_1]STEPLEN
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.01.stepspace       [JOINT_1]STEPSPACE
-
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.01.position-scale  [JOINT_1]SCALE
-
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.01.maxvel          [JOINT_1]STEPGEN_MAXVEL
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.01.maxaccel        [JOINT_1]STEPGEN_MAXACCEL
-
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.01.step_type       0
+# PID Output
+net joint.1.output <= pid.y.output
 
 # Axis: Z Joint: 2 Output: 2
-# axis enable chain
-newsig emcmot.02.enable bit
-sets emcmot.02.enable FALSE
+# PID Setup
+setp pid.z.Pgain [JOINT_2](P)
+setp pid.z.Igain [JOINT_2](I)
+setp pid.z.Dgain [JOINT_2](D)
+setp pid.z.bias [JOINT_2](BIAS)
+setp pid.z.FF0 [JOINT_2](FF0)
+setp pid.z.FF1 [JOINT_2](FF1)
+setp pid.z.FF2 [JOINT_2](FF2)
+setp pid.z.deadband [JOINT_2](DEADBAND)
+setp pid.z.maxoutput [JOINT_2](MAX_OUTPUT)
+setp pid.z.error-previous-target True
 
-net emcmot.02.enable <= joint.2.amp-enable-out 
-net emcmot.02.enable => hm2_[HOSTMOT2](BOARD).0.stepgen.02.enable
+# joint-2 enable chain
+net joint-2-index-enable <=> pid.z.index-enable
+net joint-2-index-enable <=> joint.2.index-enable
 
+net joint-2-enable <= joint.2.amp-enable-out
+net joint-2-enable => pid.z.enable
 
 # position command and feedback
-net emcmot.02.pos-cmd <= joint.2.motor-pos-cmd
-net emcmot.02.pos-cmd => hm2_[HOSTMOT2](BOARD).0.stepgen.02.position-cmd
+net joint-2-pos-cmd <= joint.2.motor-pos-cmd
+net joint-2-pos-cmd => pid.z.command
 
-net motor.02.pos-fb <= hm2_[HOSTMOT2](BOARD).0.stepgen.02.position-fb
-net motor.02.pos-fb => joint.2.motor-pos-fb
+net joint-2-pos-fb <= hm2_[MESA](BOARD).0.stepgen.02.position-fb
+net joint-2-pos-fb => joint.2.motor-pos-fb
+net joint-2-pos-fb => pid.z.feedback
 
-
-# timing parameters
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.02.dirsetup        [JOINT_2]DIRSETUP
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.02.dirhold         [JOINT_2]DIRHOLD
-
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.02.steplen         [JOINT_2]STEPLEN
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.02.stepspace       [JOINT_2]STEPSPACE
-
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.02.position-scale  [JOINT_2]SCALE
-
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.02.maxvel          [JOINT_2]STEPGEN_MAXVEL
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.02.maxaccel        [JOINT_2]STEPGEN_MAXACCEL
-
-setp hm2_[HOSTMOT2](BOARD).0.stepgen.02.step_type       0
-
-#*******************
-#  SPINDLE
-#*******************
-
-setp pid.s.Pgain     [SPINDLE_0]P
-setp pid.s.Igain     [SPINDLE_0]I
-setp pid.s.Dgain     [SPINDLE_0]D
-setp pid.s.bias      [SPINDLE_0]BIAS
-setp pid.s.FF0       [SPINDLE_0]FF0
-setp pid.s.FF1       [SPINDLE_0]FF1
-setp pid.s.FF2       [SPINDLE_0]FF2
-setp pid.s.deadband  [SPINDLE_0]DEADBAND
-setp pid.s.maxoutput [SPINDLE_0]MAX_OUTPUT
-setp pid.s.error-previous-target true
-
-net spindle-index-enable  <=> pid.s.index-enable
-net spindle-enable        =>  pid.s.enable
-net spindle-vel-cmd-rpm     => pid.s.command
-net spindle-vel-fb-rpm      => pid.s.feedback
-net spindle-output        <=  pid.s.output
-
-# ---PWM Generator signals/setup---
- 
-setp hm2_7c80.0.pwmgen.00.output-type 1
-setp hm2_7c80.0.pwmgen.00.scale  [SPINDLE_0]OUTPUT_SCALE
-setp hm2_7c80.0.pwmgen.00.out0.invert_output true
-
-# --- Setup 7C80 GPIO bits for FWD/REV spindle control
-setp hm2_7c80.0.gpio.020.invert_output true
-setp hm2_7c80.0.gpio.020.is_output true
-setp hm2_7c80.0.gpio.021.invert_output true
-setp hm2_7c80.0.gpio.021.is_output true
-
-net spindle-cw  => hm2_7c80.0.gpio.020.out
-net spindle-ccw => hm2_7c80.0.gpio.021.out
-
-net spindle-output      => hm2_7c80.0.pwmgen.00.value
-net spindle-enable      => hm2_7c80.0.pwmgen.00.enable
-
-# ---Encoder feedback signals/setup---
-
-
-# ---setup spindle control signals---
-
-net spindle-vel-cmd-rps        <=  spindle.0.speed-out-rps
-net spindle-vel-cmd-rps-abs    <=  spindle.0.speed-out-rps-abs
-net spindle-vel-cmd-rpm        <=  spindle.0.speed-out
-net spindle-vel-cmd-rpm-abs    <=  spindle.0.speed-out-abs
-net spindle-enable             <=  spindle.0.on
-net spindle-cw                 <=  spindle.0.forward
-net spindle-ccw                <=  spindle.0.reverse
-net spindle-brake              <=  spindle.0.brake
-net spindle-revs               =>  spindle.0.revs
-net spindle-at-speed           =>  spindle.0.at-speed
-net spindle-vel-fb-rps         =>  spindle.0.speed-in
-net spindle-index-enable      <=>  spindle.0.index-enable
-
-# ---Setup spindle at speed signals---
-
-sets spindle-at-speed true
-
-#  ---probe signal---
-
-net probe-in     =>  motion.probe-input
-
-#  ---motion control signals---
-
-net in-position               <=  motion.in-position
-net machine-is-enabled        <=  motion.motion-enabled
+# PID Output
+net joint.2.output <= pid.z.output
 
 # Standard I/O Block - EStop, Etc
 # create a signal for the estop loopback

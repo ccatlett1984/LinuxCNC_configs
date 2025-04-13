@@ -5,9 +5,6 @@ placeFrames 0.3
 set ::ratio 0.3
 set ::old_w_leftf 160
 set ::watchlist {
-    sig+joint-0-enable
-    sig+joint-1-enable
-    sig+joint-2-enable
     sig+minus-home-joint-0
     sig+minus-home-joint-1
     sig+minus-home-joint-2
@@ -15,6 +12,11 @@ set ::watchlist {
     pin+hm2_7c80.0.ssr.00.out-02
     pin+hm2_7c80.0.ssr.00.out-01
     pin+hm2_7c80.0.ssr.00.out-00
+    pin+not.0.out
+    pin+hm2_7c80.0.stepgen.00.enable
+    pin+hm2_7c80.0.stepgen.02.enable
+    pin+motion.enable
+    pin+motion.motion-enabled
 }
 set ::workmode watchhal
 set ::watchInterval 100
