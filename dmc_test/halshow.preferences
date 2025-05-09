@@ -1,0 +1,38 @@
+# Halshow settings
+# This file is generated automatically.
+wm geometry . 1002x750+61+27
+placeFrames 0.3
+set ::ratio 0.3
+set ::old_w_leftf 160
+set ::watchlist {
+    pin+joint.0.active
+    pin+hm2_7c80.0.ssr.00.out-02
+    pin+hm2_7c80.0.ssr.00.out-01
+    pin+hm2_7c80.0.ssr.00.out-00
+    pin+not.0.out
+    pin+hm2_7c80.0.stepgen.00.enable
+    pin+hm2_7c80.0.stepgen.02.enable
+    pin+motion.enable
+    pin+motion.motion-enabled
+    sig+estop-ext
+    sig+estop-out
+    sig+machine-is-enabled
+    sig+machine-is-on
+    pin+not.0.in
+    pin+motion.motion-type
+    pin+motion.probe-input
+    pin+motion.program-line
+    pin+motion.is-all-homed
+    pin+joint.0.homed
+    pin+joint.0.neg-lim-sw-in
+    pin+hm2_7c80.0.inmux.00.input-15
+    pin+hm2_7c80.0.inmux.00.input-14
+    pin+hm2_7c80.0.inmux.00.input-13-not
+}
+set ::workmode watchhal
+set ::watchInterval 100
+set ::col1_width 100
+set ::ffmts 
+set ::ifmts 
+set ::alwaysOnTop 0
+set ::autoSaveWatchlist 1
