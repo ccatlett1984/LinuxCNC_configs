@@ -18,7 +18,7 @@ set ::watchlist {
     pin+motion.enable
     pin+motion.motion-enabled
 }
-set ::workmode watchhal
+set ::workmode showhal
 set ::watchInterval 100
 set ::col1_width 100
 set ::ffmts 
