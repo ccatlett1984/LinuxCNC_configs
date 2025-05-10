@@ -1,6 +1,6 @@
 # Halshow settings
 # This file is generated automatically.
-wm geometry . 1002x750+61+27
+wm geometry . 1002x750+774+27
 placeFrames 0.3
 set ::ratio 0.3
 set ::old_w_leftf 160
@@ -24,9 +24,16 @@ set ::watchlist {
     pin+motion.program-line
     pin+motion.is-all-homed
     pin+joint.0.homed
-    pin+joint.0.neg-lim-sw-in
     pin+hm2_7c80.0.inmux.00.input-15
     pin+hm2_7c80.0.inmux.00.input-14
+    sig+z-is-homed
+    sig+z-enable
+    sig+max-home-z
+    sig+min-home-x
+    sig+max-home-y
+    pin+joint.0.homing
+    pin+joint.0.home-sw-in
+    pin+joint.0.home-state
     pin+hm2_7c80.0.inmux.00.input-13-not
 }
 set ::workmode watchhal
