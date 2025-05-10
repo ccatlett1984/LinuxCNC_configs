@@ -35,7 +35,7 @@ net machine-is-enabled  =>     hm2_7c80.0.ssr.00.out-00
 # external input signals
 
 net min-home-x          <=  hm2_7c80.0.inmux.00.input-15-not
-net max-home-y          <=  hm2_7c80.0.inmux.00.input-14-not
+net min-home-y          <=  hm2_7c80.0.inmux.00.input-14-not
 net max-home-z          <=  hm2_7c80.0.inmux.00.input-13
 net probe-in            <=  hm2_7c80.0.inmux.00.input-23
 net estop-ext           <=  hm2_7c80.0.inmux.00.input-22-not
@@ -140,7 +140,7 @@ net y-enable     => hm2_7c80.0.stepgen.01.enable
 
 # ---setup home / limit switch signals---
 
-net max-home-y     =>  joint.1.home-sw-in
+net min-home-y     =>  joint.1.home-sw-in
 
 #*******************
 #  AXIS Z JOINT 2
