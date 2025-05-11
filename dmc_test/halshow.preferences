@@ -1,8 +1,8 @@
 # Halshow settings
 # This file is generated automatically.
-wm geometry . 1002x750+774+27
-placeFrames 0.3
-set ::ratio 0.3
+wm geometry . 1002x750+85+57
+placeFrames 0.20404040404040405
+set ::ratio 0.20404040404040405
 set ::old_w_leftf 160
 set ::watchlist {
     pin+joint.0.active
@@ -23,18 +23,18 @@ set ::watchlist {
     pin+motion.probe-input
     pin+motion.program-line
     pin+motion.is-all-homed
-    pin+joint.0.homed
     pin+hm2_7c80.0.inmux.00.input-15
     pin+hm2_7c80.0.inmux.00.input-14
-    sig+z-is-homed
-    sig+z-enable
     sig+max-home-z
     sig+min-home-x
     sig+max-home-y
-    pin+joint.0.homing
     pin+joint.0.home-sw-in
     pin+joint.0.home-state
     pin+hm2_7c80.0.inmux.00.input-13-not
+    pin+joint.2.home-sw-in
+    pin+joint.2.home-state
+    pin+joint.1.home-sw-in
+    pin+joint.1.home-state
 }
 set ::workmode watchhal
 set ::watchInterval 100
