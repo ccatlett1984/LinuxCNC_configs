@@ -40,6 +40,14 @@ loadusr -W xhc-whb04b-6 -HsfB
 # pendant signal configuration
 # ######################################################################
 
+# Lowpass Filtering for mpg
+setp limit1.0.min 0.001
+setp limit1.0.max 0.5
+setp ilowpass.0.gain 0.01
+# IMPORTANT to keep ratio ilowpass.0.scale mult2.0.in1
+setp ilowpass.0.scale 1000
+setp mult2.0.in1 0.001
+
 # On/Off signals
 net machine.is-on                         halui.machine.is-on                   whb.halui.machine.is-on
 net pdnt.machine.on                       whb.halui.machine.on                  halui.machine.on
