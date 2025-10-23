@@ -1,6 +1,6 @@
 # Halshow settings
 # This file is generated automatically.
-wm geometry . 1002x750+85+57
+wm geometry . 1147x914+85+57
 placeFrames 0.20404040404040405
 set ::ratio 0.20404040404040405
 set ::old_w_leftf 160
@@ -35,6 +35,37 @@ set ::watchlist {
     pin+joint.2.home-state
     pin+joint.1.home-sw-in
     pin+joint.1.home-state
+    pin+whb.pendant.is-connected
+    pin+whb.button.s-on-off
+    pin+whb.button.mode-continuous
+    pin+whb.button.mode-step
+    pin+whb.button.feed-plus
+    pin+whb.button.feed-minus
+    pin+whb.axis.x.jog-enable
+    pin+whb.axis.x.jog-scale
+    pin+whb.axis.x.jog-vel-mode
+    pin+whb.axis.x.jog-counts
+    pin+whb.axis.y.jog-enable
+    pin+whb.axis.y.jog-scale
+    pin+whb.axis.y.jog-counts
+    pin+whb.axis.y.jog-vel-mode
+    pin+whb.axis.z.jog-enable
+    pin+whb.axis.z.jog-scale
+    pin+whb.axis.z.jog-counts
+    pin+whb.axis.z.jog-vel-mode
+    pin+whb.halui.axis.x.select
+    pin+whb.halui.axis.y.select
+    pin+whb.halui.axis.z.select
+    pin+whb.halui.feed.selected-mpg-feed
+    pin+whb.halui.feed.selected-continuous
+    pin+whb.halui.feed.selected-2
+    pin+whb.halui.feed.selected-5
+    pin+whb.halui.feed.selected-10
+    pin+whb.halui.feed.selected-30
+    pin+whb.halui.feed.selected-60
+    pin+whb.halui.feed.selected-100
+    pin+whb.halui.feed-override.decrease
+    pin+whb.halui.feed-override.increase
 }
 set ::workmode watchhal
 set ::watchInterval 100
