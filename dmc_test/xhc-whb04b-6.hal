@@ -49,7 +49,7 @@ setp ilowpass.0.scale 1000
 setp mult2.0.in1 0.001
 
 # On/Off signals
-net machine.is-on                         halui.machine.is-on                   whb.halui.machine.is-on
+net pdnt.machine.is-on                    whb.halui.machine.is-on               #halui.machine.is-on
 net pdnt.machine.on                       whb.halui.machine.on                  halui.machine.on
 net pdnt.machine.off                      whb.halui.machine.off                 halui.machine.off
 

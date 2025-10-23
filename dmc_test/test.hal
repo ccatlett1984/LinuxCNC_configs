@@ -9,6 +9,9 @@ loadrt hostmot2
 loadrt hm2_spix config=" num_encoders=0 num_pwmgens=1 num_stepgens=5 sserial_port_0=0xxxxx" 
 setp    hm2_7c80.0.watchdog.timeout_ns 5000000
 loadrt pid names=pid.x,pid.y,pid.y2,pid.z,pid.s
+loadrt limit1 count=2
+loadrt ilowpass count=2
+loadrt mult2 count=2
 
 addf hm2_7c80.0.read          servo-thread
 addf motion-command-handler   servo-thread
