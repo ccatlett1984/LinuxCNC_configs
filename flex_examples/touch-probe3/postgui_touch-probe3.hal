@@ -1,0 +1,14 @@
+# ##################################################
+# MDI-Commands
+# ##################################################
+
+net touch-probe flexhal.probe_trigger_pin => motion.probe-input
+
+# Cycle Timer
+net run-status => 	time.0.start
+net cycle-seconds 	flexhal.timer0_sec <= time.0.seconds
+net cycle-minutes 	flexhal.timer0_min <= time.0.minutes
+net cycle-hours 	flexhal.timer0_hrs <= time.0.hours
+
+net spindle-cmd-rpm-abs => flexhal.spindle_rpm
+
