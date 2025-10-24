@@ -17,7 +17,6 @@ set ::watchlist {
     sig+estop-ext
     sig+estop-out
     sig+machine-is-enabled
-    sig+machine-is-on
     pin+not.0.in
     pin+motion.motion-type
     pin+motion.probe-input
@@ -66,6 +65,20 @@ set ::watchlist {
     pin+whb.halui.feed.selected-100
     pin+whb.halui.feed-override.decrease
     pin+whb.halui.feed-override.increase
+    pin+axis.x.jog-counts
+    pin+axis.y.jog-counts
+    pin+axis.z.jog-counts
+    pin+axis.z.jog-enable
+    pin+axis.z.wheel-jog-active
+    pin+axis.z.teleop-pos-cmd
+    pin+axis.z.teleop-tp-enable
+    pin+axis.z.teleop-vel-cmd
+    pin+axis.z.teleop-vel-lim
+    pin+ilowpass.0.in
+    pin+ilowpass.0.out
+    pin+ilowpass.0.time
+    pin+halui.mode.is-teleop
+    pin+halui.mode.teleop
 }
 set ::workmode watchhal
 set ::watchInterval 100
