@@ -79,13 +79,13 @@ F022 sets the emergency-stop deceleration time used when X3 opens.
 
 ---
 
-## 3. LinuxCNC configuration (`configs/dmc_test`)
+## 3. LinuxCNC configuration (`configs/dmc_mini`)
 
 | File | What it does |
 |---|---|
 | `h100_vfd.py` | Userspace HAL component that talks Modbus RTU to the H100 (standard library only) |
-| `test.hal` | Loads `h100_vfd.py` and wires the spindle nets and the 7C80 permissive output. |
-| `test.ini` | `[H100_VFD]` holds the port, baud, address and RPM/Hz settings. `[SPINDLE_0]` clamps commanded speed to 6,000–24,000 RPM. |
+| `dmc_mini.hal` | Loads `h100_vfd.py` and wires the spindle nets and the 7C80 permissive output. |
+| `dmc_mini.ini` | `[H100_VFD]` holds the port, baud, address and RPM/Hz settings. `[SPINDLE_0]` clamps commanded speed to 6,000–24,000 RPM. |
 | `../../nc_files/atspeed_test.ngc` | Test program: M3 S12000, feed move (waits for at-speed), M5 |
 
 Serial port (stable name, survives unplug and replug):
@@ -109,7 +109,7 @@ sends each command once, when it changes, plus a 1-second refresh.
 | Read output frequency | 04 read input registers | 0x0000 (2 regs) | Hz × 10 |
 | Read F005 / F011 | 03 read holding | 0x0005 / 0x000B | Hz × 10 |
 
-### Hardwired permissive logic (`test.hal`)
+### Hardwired permissive logic (`dmc_mini.hal`)
 ```
 spindle-permit = machine-is-enabled AND h100.comm-healthy
 spindle-permit -> hm2_7c80.0.gpio.020.out and gpio.021.out (invert_output true)
@@ -145,7 +145,7 @@ feed moves wait for at-speed before starting.
 
 **Comms test** (LinuxCNC closed; read-only, never starts the spindle):
 ```
-python3 ~/linuxcnc/configs/dmc_test/h100_vfd.py --port /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_BH001YJZ-if00-port0 --test
+python3 ~/linuxcnc/configs/dmc_mini/h100_vfd.py --port /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_BH001YJZ-if00-port0 --test
 ```
 Expected: F005 400.0 Hz, F011 100.0 Hz.
 

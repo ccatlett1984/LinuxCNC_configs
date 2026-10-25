@@ -197,12 +197,12 @@ net max-home-z     =>  joint.2.home-sw-in
 
 #*******************
 #  SPINDLE - H100 VFD over USB-RS485 (Modbus RTU)
-#  Driven by h100_vfd.py in this folder; settings are in [H100_VFD] in test.ini.
+#  Driven by h100_vfd.py in this folder; settings are in [H100_VFD] in dmc_mini.ini.
 #  Comms test (LinuxCNC not running):
-#    python3 ~/linuxcnc/configs/dmc_test/h100_vfd.py --port /dev/ttyUSB0 --test
+#    python3 ~/linuxcnc/configs/dmc_mini/h100_vfd.py --port /dev/ttyUSB0 --test
 #*******************
 
-loadusr -Wn h100 python3 /home/cnc/linuxcnc/configs/dmc_test/h100_vfd.py --name h100 --port [H100_VFD]PORT --baud [H100_VFD]BAUD --slave [H100_VFD]SLAVE_ID --max-rpm [H100_VFD]MAX_RPM --max-hz [H100_VFD]MAX_HZ --min-rpm [H100_VFD]MIN_RPM --at-speed-tol [H100_VFD]AT_SPEED_TOL
+loadusr -Wn h100 python3 /home/cnc/linuxcnc/configs/dmc_mini/h100_vfd.py --name h100 --port [H100_VFD]PORT --baud [H100_VFD]BAUD --slave [H100_VFD]SLAVE_ID --max-rpm [H100_VFD]MAX_RPM --max-hz [H100_VFD]MAX_HZ --min-rpm [H100_VFD]MIN_RPM --at-speed-tol [H100_VFD]AT_SPEED_TOL
 
 net spindle-cw                 <=  spindle.0.forward
 net spindle-ccw                <=  spindle.0.reverse
