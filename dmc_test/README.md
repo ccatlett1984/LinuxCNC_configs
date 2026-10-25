@@ -84,7 +84,7 @@ F022 sets the emergency-stop deceleration time used when X3 opens.
 | File | What it does |
 |---|---|
 | `h100_vfd.py` | Userspace HAL component that talks Modbus RTU to the H100 (standard library only) |
-| `test.hal` | Loads `h100_vfd.py` and wires the spindle nets and the 7C80 permissive output. The old 7C80 analog/PWM spindle section is kept, commented out. |
+| `test.hal` | Loads `h100_vfd.py` and wires the spindle nets and the 7C80 permissive output. |
 | `test.ini` | `[H100_VFD]` holds the port, baud, address and RPM/Hz settings. `[SPINDLE_0]` clamps commanded speed to 6,000–24,000 RPM. |
 | `../../nc_files/atspeed_test.ngc` | Test program: M3 S12000, feed move (waits for at-speed), M5 |
 
@@ -155,3 +155,64 @@ Expected: F005 400.0 Hz, F011 100.0 Hz.
   machine on. If it reads 10.65 V, the permissive is open. Check `halcmd show pin and2.0`
   and `halcmd show pin h100.comm-healthy`.
 - **Driver messages:** start LinuxCNC from a terminal to see `h100:` log lines.
+
+---
+
+## 6. Raspberry Pi 5 realtime setup
+
+Fixed 2026-10-25 after LinuxCNC reported an "unexpected realtime delay". A system update had
+left the Pi booting the standard (non-realtime) kernel.
+
+| Kernel | Servo thread max jitter |
+|---|---|
+| 6.18.50+rpt-rpi-v8 (stock, `SMP PREEMPT`) | 281 µs |
+| 6.12.34+rpt-rpi-v8-rt (`PREEMPT_RT`) + tuning below | 14 µs (sdev 0.3 µs) |
+| **6.18.50+rpt-rpi-v8-rt (`PREEMPT_RT`) + tuning below — current** | **6 µs (sdev 0.2 µs)** |
+
+Kernel updated to 6.18.50-rt on 2026-10-25. Spindle, at-speed test and core isolation were
+re-verified afterwards.
+
+### Changes (originals saved as `.bak` in `/boot/firmware/`)
+
+`/boot/firmware/config.txt`, appended in the `[all]` section:
+```
+kernel=kernel8_rt.img
+force_turbo=1
+```
+- `kernel=kernel8_rt.img` boots the realtime kernel instead of the newest stock kernel.
+- `force_turbo=1` holds the CPU at full clock (no frequency scaling). It does not overclock.
+
+`/boot/firmware/cmdline.txt`, appended to the end of the single line:
+```
+isolcpus=2,3 nohz_full=2,3 rcu_nocbs=2,3
+```
+This reserves CPU cores 2 and 3 for LinuxCNC realtime. Check it with
+`cat /sys/devices/system/cpu/isolated`, which should print `2-3`.
+
+### Notes
+- **RT kernel updates are manual.** The installed package is the specific version
+  `linux-image-6.18.50+rpt-rpi-v8-rt`, not the `linux-image-rpi-v8-rt` meta-package, so
+  `apt upgrade` will not change the RT kernel. Plain Debian `+deb13-rt-arm64` kernels lack
+  Raspberry Pi support, so don't use them. There is no Pi 5-specific (`2712`) RT build;
+  the `v8` RT kernel is the one to use.
+- **Updating the RT kernel:** installing a new `-rt` package overwrites `kernel8_rt.img` and
+  `initramfs8_rt`. Copy both to versioned names first (see the rollback below), then
+  `sudo apt install linux-image-<version>+rpt-rpi-v8-rt`, check that the files' timestamps
+  changed, reboot, and re-run the latency test.
+- **Rollback to 6.12.34-rt:** backups are kept as `/boot/firmware/kernel8_rt-6.12.34.img` and
+  `/boot/firmware/initramfs8_rt-6.12.34`. In `config.txt`, replace `kernel=kernel8_rt.img` with:
+  ```
+  kernel=kernel8_rt-6.12.34.img
+  initramfs initramfs8_rt-6.12.34 followkernel
+  ```
+  Keep the package `linux-image-6.12.34+rpt-rpi-v8-rt` installed while this fallback is
+  wanted; its kernel modules live in it.
+- The Pi boots `kernel8_rt.img`. Nothing else depends on the `-rt` packages, so they are easy
+  to remove by mistake when cleaning old kernels.
+- Check the running kernel with `uname -a`. It must show `-rt` and `PREEMPT_RT`.
+- **If the Pi won't boot after a change:** put the SD card in another computer. The boot
+  partition is FAT and readable on Windows. Copy `config.txt.bak` / `cmdline.txt.bak` back
+  over the edited files.
+- To re-check latency: `latency-histogram --nobase --sbinsize 1000` for at least 10 minutes,
+  with a browser or `glxgears` running as load. Base-thread numbers don't matter on this
+  machine, because the 7C80 generates steps in hardware.
