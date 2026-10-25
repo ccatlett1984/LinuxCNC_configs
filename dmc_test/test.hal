@@ -196,65 +196,45 @@ net z-enable     => hm2_7c80.0.stepgen.00.enable
 net max-home-z     =>  joint.2.home-sw-in
 
 #*******************
-#  SPINDLE
+#  SPINDLE - H100 VFD over USB-RS485 (Modbus RTU)
+#  Driven by h100_vfd.py in this folder; settings are in [H100_VFD] in test.ini.
+#  Comms test (LinuxCNC not running):
+#    python3 ~/linuxcnc/configs/dmc_test/h100_vfd.py --port /dev/ttyUSB0 --test
 #*******************
 
-setp   pid.s.Pgain     [SPINDLE_0]P
-setp   pid.s.Igain     [SPINDLE_0]I
-setp   pid.s.Dgain     [SPINDLE_0]D
-setp   pid.s.bias      [SPINDLE_0]BIAS
-setp   pid.s.FF0       [SPINDLE_0]FF0
-setp   pid.s.FF1       [SPINDLE_0]FF1
-setp   pid.s.FF2       [SPINDLE_0]FF2
-setp   pid.s.deadband  [SPINDLE_0]DEADBAND
-setp   pid.s.maxoutput [SPINDLE_0]MAX_OUTPUT
-setp   pid.s.error-previous-target true
+loadusr -Wn h100 python3 /home/cnc/linuxcnc/configs/dmc_test/h100_vfd.py --name h100 --port [H100_VFD]PORT --baud [H100_VFD]BAUD --slave [H100_VFD]SLAVE_ID --max-rpm [H100_VFD]MAX_RPM --max-hz [H100_VFD]MAX_HZ --min-rpm [H100_VFD]MIN_RPM --at-speed-tol [H100_VFD]AT_SPEED_TOL
 
-net spindle-index-enable  <=> pid.s.index-enable
-net spindle-enable        =>  pid.s.enable
-net spindle-vel-cmd-rpm     => pid.s.command
-net spindle-vel-fb-rpm      => pid.s.feedback
-net spindle-output        <=  pid.s.output
-
-# ---PWM Generator signals/setup---
- 
-setp   hm2_7c80.0.pwmgen.00.output-type 1
-setp   hm2_7c80.0.pwmgen.00.scale  [SPINDLE_0]OUTPUT_SCALE
-setp   hm2_7c80.0.pwmgen.00.out0.invert_output true
-
-# --- Setup 7C80 GPIO bits for FWD/REV spindle control
-setp hm2_7c80.0.gpio.020.invert_output true
-setp hm2_7c80.0.gpio.020.is_output true
-setp hm2_7c80.0.gpio.021.invert_output true
-setp hm2_7c80.0.gpio.021.is_output true
-
-net spindle-cw  => hm2_7c80.0.gpio.020.out
-net spindle-ccw => hm2_7c80.0.gpio.021.out
-
-net spindle-output      => hm2_7c80.0.pwmgen.00.value
-net spindle-enable      => hm2_7c80.0.pwmgen.00.enable
-
-# ---Encoder feedback signals/setup---
-
-
-# ---setup spindle control signals---
-
-net spindle-vel-cmd-rps        <=  spindle.0.speed-out-rps
-net spindle-vel-cmd-rps-abs    <=  spindle.0.speed-out-rps-abs
-net spindle-vel-cmd-rpm        <=  spindle.0.speed-out
-#net spindle-vel-cmd-rpm-abs    <=  spindle.0.speed-out-abs
-#net spindle-enable             <=  spindle.0.on
 net spindle-cw                 <=  spindle.0.forward
 net spindle-ccw                <=  spindle.0.reverse
-net spindle-brake              <=  spindle.0.brake
-net spindle-revs               =>  spindle.0.revs
-net spindle-at-speed           =>  spindle.0.at-speed
+net spindle-vel-cmd-rpm        <=  spindle.0.speed-out
+net spindle-cw                 =>  h100.forward
+net spindle-ccw                =>  h100.reverse
+net spindle-vel-cmd-rpm        =>  h100.speed-cmd-rpm
+
+# real speed feedback from the VFD; motion waits for at-speed before feed moves
+net spindle-vel-fb-rps         <=  h100.speed-fb-rps
 net spindle-vel-fb-rps         =>  spindle.0.speed-in
-net spindle-index-enable      <=>  spindle.0.index-enable
+net spindle-at-speed           <=  h100.at-speed
+net spindle-at-speed           =>  spindle.0.at-speed
 
-# ---Setup spindle at speed signals---
-
-sets spindle-at-speed true
+# ---Hardwired run permissive: 7C80 isolated SPINDLE EN output -> VFD X3---
+# Output is ON only while the machine is on AND the VFD is answering Modbus.
+# E-stop / machine off, VFD comms lost >1 s, or a LinuxCNC/Pi crash
+# (hostmot2 watchdog) all turn it OFF, and the VFD must then stop.
+# Both GPIO 20 and 21 are driven so the EN pair works whichever GPIO it is
+# (the DIR pair is not wired).
+loadrt and2 count=1
+addf and2.0 servo-thread
+setp hm2_7c80.0.gpio.020.is_output true
+setp hm2_7c80.0.gpio.020.invert_output true
+setp hm2_7c80.0.gpio.021.is_output true
+setp hm2_7c80.0.gpio.021.invert_output true
+net machine-is-enabled         =>  and2.0.in0
+net vfd-comm-healthy           <=  h100.comm-healthy
+net vfd-comm-healthy           =>  and2.0.in1
+net spindle-permit             <=  and2.0.out
+net spindle-permit             =>  hm2_7c80.0.gpio.020.out
+net spindle-permit             =>  hm2_7c80.0.gpio.021.out
 
 #******************************
 # connect miscellaneous signals

@@ -1,84 +1,27 @@
 # Halshow settings
 # This file is generated automatically.
-wm geometry . 1147x914+85+57
+wm geometry . 1113x914+802+68
 placeFrames 0.20404040404040405
 set ::ratio 0.20404040404040405
 set ::old_w_leftf 160
 set ::watchlist {
-    pin+joint.0.active
-    pin+hm2_7c80.0.ssr.00.out-02
-    pin+hm2_7c80.0.ssr.00.out-01
-    pin+hm2_7c80.0.ssr.00.out-00
-    pin+not.0.out
-    pin+hm2_7c80.0.stepgen.00.enable
-    pin+hm2_7c80.0.stepgen.02.enable
-    pin+motion.enable
-    pin+motion.motion-enabled
+    sig+x-pos-fb
+    sig+x-pos-cmd
+    sig+y-pos-fb
+    sig+y-pos-cmd
+    sig+z-pos-fb
+    sig+z-pos-cmd
+    pin+h100.speed-cmd-rpm
+    pin+h100.speed-fb-rpm
+    pin+h100.speed-fb-rps
+    pin+h100.at-speed
+    pin+h100.forward
+    pin+h100.reverse
+    pin+h100.running
+    pin+spindle.0.on
     sig+estop-ext
     sig+estop-out
-    sig+machine-is-enabled
-    pin+not.0.in
-    pin+motion.motion-type
-    pin+motion.probe-input
-    pin+motion.program-line
-    pin+motion.is-all-homed
-    pin+hm2_7c80.0.inmux.00.input-15
-    pin+hm2_7c80.0.inmux.00.input-14
-    sig+max-home-z
-    sig+min-home-x
-    sig+max-home-y
-    pin+joint.0.home-sw-in
-    pin+joint.0.home-state
-    pin+hm2_7c80.0.inmux.00.input-13-not
-    pin+joint.2.home-sw-in
-    pin+joint.2.home-state
-    pin+joint.1.home-sw-in
-    pin+joint.1.home-state
-    pin+whb.pendant.is-connected
-    pin+whb.button.s-on-off
-    pin+whb.button.mode-continuous
-    pin+whb.button.mode-step
-    pin+whb.button.feed-plus
-    pin+whb.button.feed-minus
-    pin+whb.axis.x.jog-enable
-    pin+whb.axis.x.jog-scale
-    pin+whb.axis.x.jog-vel-mode
-    pin+whb.axis.x.jog-counts
-    pin+whb.axis.y.jog-enable
-    pin+whb.axis.y.jog-scale
-    pin+whb.axis.y.jog-counts
-    pin+whb.axis.y.jog-vel-mode
-    pin+whb.axis.z.jog-enable
-    pin+whb.axis.z.jog-scale
-    pin+whb.axis.z.jog-counts
-    pin+whb.axis.z.jog-vel-mode
-    pin+whb.halui.axis.x.select
-    pin+whb.halui.axis.y.select
-    pin+whb.halui.axis.z.select
-    pin+whb.halui.feed.selected-mpg-feed
-    pin+whb.halui.feed.selected-continuous
-    pin+whb.halui.feed.selected-2
-    pin+whb.halui.feed.selected-5
-    pin+whb.halui.feed.selected-10
-    pin+whb.halui.feed.selected-30
-    pin+whb.halui.feed.selected-60
-    pin+whb.halui.feed.selected-100
-    pin+whb.halui.feed-override.decrease
-    pin+whb.halui.feed-override.increase
-    pin+axis.x.jog-counts
-    pin+axis.y.jog-counts
-    pin+axis.z.jog-counts
-    pin+axis.z.jog-enable
-    pin+axis.z.wheel-jog-active
-    pin+axis.z.teleop-pos-cmd
-    pin+axis.z.teleop-tp-enable
-    pin+axis.z.teleop-vel-cmd
-    pin+axis.z.teleop-vel-lim
-    pin+ilowpass.0.in
-    pin+ilowpass.0.out
-    pin+ilowpass.0.time
-    pin+halui.mode.is-teleop
-    pin+halui.mode.teleop
+    sig+machine.is-on
 }
 set ::workmode watchhal
 set ::watchInterval 100
